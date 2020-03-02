@@ -8,6 +8,28 @@
 	font-size: 1.2rem;
 }
 
+.Burger::-webkit-scrollbar{
+	width: 0.25rem;
+}
+
+.Burger::-webkit-scrollbar:corner-present{
+	display: none;
+}
+
+.Burger::-webkit-scrollbar:horizontal{
+	display: none;
+}
+
+.Burger::-webkit-scrollbar-thumb{
+	background: #EA8641;
+	border-radius: 5px;
+}
+
+.Burger::-webkit-scrollbar-track{
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+}
+
 @media (min-width: 500px) and (min-height: 400px){
 	.Burger{
 		width: 350px;
