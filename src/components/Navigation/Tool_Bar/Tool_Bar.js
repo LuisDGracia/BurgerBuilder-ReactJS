@@ -7,9 +7,12 @@ import Nav from '../Nav_Items/Nav_Items'
 const tollbar = ( props ) => (
 	<header className = { classes.Toolbar } >
 		<div>MENU</div>
-		<Logo />
-		<nav>
-			<Nav/>
+
+		<div className = { classes.Logo }>
+			<Logo />
+		</div>
+		<nav className = { classes.DesktopOnly }>
+			<Nav />
 		</nav>
 	</header>
 )
