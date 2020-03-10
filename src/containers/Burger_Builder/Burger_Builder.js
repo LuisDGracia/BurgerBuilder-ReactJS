@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import Axios from '../../axios_orders'
 
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/Order_Summary/Order_Summary'
 import Aux from '../../hoc/Auxiliar/Auxiliar'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/Build_Controls/Build_Controls'
-import Modal from '../../components/UI/Modal/Modal'
-import OrderSummary from '../../components/Burger/Order_Summary/Order_Summary'
-import Axios from '../../axios_orders'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import Spinner from '../../components/UI/Spinner/Spinner'
 
@@ -30,6 +30,7 @@ class BurgerBuilder extends Component{
 		Axios.get( 'https://react-my-burger-cb3e2.firebaseio.com/ingredients.json')
 				 .then( response => {
 					this.setState( { ingredients: response.data } )
+					this.isPurchasable( this.state.ingredients )
 				 })
 				 .catch( err => {
 					 this.setState( { error: true } )
@@ -96,29 +97,19 @@ class BurgerBuilder extends Component{
 
 	purchaseContinueHandler = () => {
 		// alert("You continue!")
-		this.setState( { loading: true } )
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.totalPrice,
-			customer:{
-				name: 'Luis De Gracia',
-				address: {
-					street: 'Some Silicon valley street',
-					zipcode: '44444',
-					country: 'USA',
-				},
-				email: 'someEmail@google.com'
-			},
-			deliveryMethod: 'Uber'
-		}
+		const queryParams = []
 
-		Axios.post('/orders.json', order)
-					.then( response => {
-						this.setState( { loading: false, purchasing: false } )
-					})
-					.catch( err => {
-						this.setState( { loading: false, purchasing: false } )
-					});
+		for (let key in this.state.ingredients) {
+			queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.state.ingredients[key])}`)
+		}
+		queryParams.push(`price=${this.state.totalPrice}`)
+		const queryString = queryParams.join('&')
+
+		this.props.history.push( {
+			pathname: '/checkout',
+			search: `?${queryString}`
+		})
+
 	}
 
 	render() {
@@ -156,11 +147,10 @@ class BurgerBuilder extends Component{
 											purchaseContinued = { this.purchaseContinueHandler }
 											price = { this.state.totalPrice }/>
 		}
-
-
+		
+		
 		return (
 			<Aux>
-
 				<Modal show = { this.state.purchasing } modalClosed = { this.purchaseCancelHandler}>
 					{ orderSummary }
 				</Modal>
