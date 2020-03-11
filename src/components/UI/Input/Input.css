@@ -11,6 +11,8 @@
 }
 
 .InputElement {
+	width: 90%;
+	border-radius: 5px;
 	outline: none;
 	border: 1px solid #ccc;
 	background-color: white;
