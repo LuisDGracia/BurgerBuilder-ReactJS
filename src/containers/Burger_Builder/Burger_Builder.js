@@ -20,14 +20,14 @@ class BurgerBuilder extends Component{
 	}
 
 	componentDidMount () {
-		Axios.get( 'https://react-my-burger-cb3e2.firebaseio.com/ingredients.json')
-				 .then( response => {
-					this.setState( { ingredients: response.data } )
-					this.isPurchasable( this.state.ingredients )
-				 })
-				 .catch( err => {
-					 this.setState( { error: true } )
-				 } )
+		// Axios.get( 'https://react-my-burger-cb3e2.firebaseio.com/ingredients.json')
+		// 		 .then( response => {
+		// 			this.setState( { ingredients: response.data } )
+		// 			this.isPurchasable( this.state.ingredients )
+		// 		 })
+		// 		 .catch( err => {
+		// 			 this.setState( { error: true } )
+		// 		 } )
 	}
 
 	isPurchasable( ingredients ){
@@ -52,20 +52,7 @@ class BurgerBuilder extends Component{
 	}
 
 	purchaseContinueHandler = () => {
-		// alert("You continue!")
-		const queryParams = []
-
-		for (let key in this.state.ingredients) {
-			queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(this.state.ingredients[key])}`)
-		}
-		queryParams.push(`price=${this.state.totalPrice}`)
-		const queryString = queryParams.join('&')
-
-		this.props.history.push( {
-			pathname: '/checkout',
-			search: `?${queryString}`
-		})
-
+		this.props.history.push( '/checkout' )
 	}
 
 	render() {
